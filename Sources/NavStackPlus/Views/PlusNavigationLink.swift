@@ -108,7 +108,7 @@ extension PlusNavigationLink where Label == Text {
                         }
                     }
                     .contentMargins(.top, 16, for: .scrollContent)
-                    .plusNavigationDestination(for: Int.self) {
+                    .navigationDestinationPlus(for: Int.self) {
                             TargetExampleView(number: $0)
                     }
                 }
@@ -116,7 +116,7 @@ extension PlusNavigationLink where Label == Text {
                     TargetExampleView(number: num)
                 })
                 .navigationTitle("Custom Nav Stack")
-                .plusToolbar {
+                .toolbarPlus {
                     CustomToolbarItem(placement: .leading) {
                         Button(
                             "Profile", systemImage: "person.circle.fill",
@@ -135,8 +135,8 @@ extension PlusNavigationLink where Label == Text {
                         .foregroundStyle(.purple)
                     }
                 }
-                .plusToolbarScrollDisabled(true)
-                .plusToolbarBackground {
+                .navigationBarScrollDisabledPlus(true)
+                .toolbarBackgroundPlus {
                     Rectangle()
                         .fill(.ultraThinMaterial)
 
@@ -159,12 +159,12 @@ extension PlusNavigationLink where Label == Text {
                 }
             }
             .navigationTitle("\(number)")
-            .plusToolbar {
+            .toolbarPlus {
                 CustomToolbarItem(placement: .principal) {
                     Text(number, format: .number)
                 }
             }
-            .plusToolbarBackground {
+            .toolbarBackgroundPlus {
                 Rectangle()
                     .fill(.bar)
                     .ignoresSafeArea()

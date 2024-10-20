@@ -10,7 +10,7 @@ import SwiftUI
 import ScrollPlus
 
 extension View {
-    public func plusNavigationDestination<D, C>(
+    public func navigationDestinationPlus<D, C>(
         for data: D.Type,
         @ViewBuilder destination: @escaping (D) -> C) -> some View where D: Hashable, C: View {
         self
@@ -25,27 +25,27 @@ extension View {
 
 extension View {
     @ViewBuilder
-    public func plusToolbar(@CustomToolbarItemBuilder content: () -> [CustomToolbarItem]) -> some View {
+    public func toolbarPlus(@CustomToolbarItemBuilder content: () -> [CustomToolbarItem]) -> some View {
         self
             .preference(key: ToolbarPreferenceKey.self, value: content())
     }
 
    @ViewBuilder
-    public func plusToolbarBackground<Content: View>(@ViewBuilder _ background: () -> Content) -> some View {
+    public func toolbarBackgroundPlus<Content: View>(@ViewBuilder _ background: () -> Content) -> some View {
         let value = EquatableViewContainer(content: background)
         self
             .preference(key: ToolbarBackgroundPreferenceKey.self, value: value)
     }
 
     @ViewBuilder
-    public func plusToolbarBackground(opacity: CGFloat) -> some View {
+    public func toolbarBackgroundPlus(opacity: CGFloat) -> some View {
         self
             .transformPreference(GeometryScrollOpacityPreferenceKey.self) { value in
                 value = opacity
             }
     }
 
-    public func plusToolbarBackground(maxOpacity: CGFloat) -> some View {
+    public func toolbarBackgroundPlus(maxOpacity: CGFloat) -> some View {
         self
             .transformPreference(GeometryScrollOpacityPreferenceKey.self) { value in
                 value = min(maxOpacity, value)
@@ -53,13 +53,13 @@ extension View {
     }
 
     @ViewBuilder
-    public func plusToolbarBackButtonHidden(_ isHidden: Bool) -> some View {
+    public func navigationBarBackButtonHiddenPlus(_ isHidden: Bool) -> some View {
         self
             .preference(key: ToolbarBackButtonDisabledPreferenceKey.self, value: isHidden)
     }
 
     @ViewBuilder
-    public func plusToolbarScrollDisabled(_ isDisabled: Bool) -> some View {
+    public func navigationBarScrollDisabledPlus(_ isDisabled: Bool) -> some View {
         self
             .preference(key: ToolbarScrollDisabledPreferenceKey.self, value: isDisabled)
     }

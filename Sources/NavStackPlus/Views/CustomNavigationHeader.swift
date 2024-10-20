@@ -129,7 +129,7 @@ extension CustomNavigationHeader {
         Rectangle()
             .fill(.blue)
             .ignoresSafeArea()
-            .plusToolbar {
+            .toolbarPlus {
                 CustomToolbarItem(placement: .leading) {
                     Button("Profile", systemImage: "person.circle.fill", action: { })
                         .font(.title)
@@ -142,6 +142,6 @@ extension CustomNavigationHeader {
                         .foregroundStyle(.purple)
                 }
             }
-            .plusToolbarBackground(opacity: 0.4)
+            .toolbarBackgroundPlus(opacity: 0.4)
     }
 }

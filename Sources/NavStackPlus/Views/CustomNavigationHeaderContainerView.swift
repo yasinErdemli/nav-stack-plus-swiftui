@@ -72,7 +72,7 @@ struct CustomNavigationHeaderContainerView<Content: View>: View {
                 }
             }
         }
-        .plusToolbar {
+        .toolbarPlus {
             CustomToolbarItem(placement: .leading) {
                 Button("Profile", systemImage: "person.circle.fill", action: { })
                     .font(.title)
@@ -85,7 +85,7 @@ struct CustomNavigationHeaderContainerView<Content: View>: View {
                     .foregroundStyle(.purple)
             }
         }
-        .plusToolbarBackground(maxOpacity: 0.5)
-        .plusToolbarScrollDisabled(false)
+        .toolbarBackgroundPlus(maxOpacity: 0.5)
+        .navigationBarScrollDisabledPlus(false)
     }
 }
