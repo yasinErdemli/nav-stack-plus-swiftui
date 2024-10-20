@@ -66,6 +66,106 @@ extension View {
                     .toolbar(.hidden, for: .navigationBar)
                 }
         }
+
+    /// Associates a destination view with a binding that can be used to push
+    /// the view onto a ``NavigationStackPlus``.
+    ///
+    /// In general, favor binding a path to a navigation stack for programmatic
+    /// navigation. Add this view modifier to a view inside a``NavigationStackPlus``
+    /// to programmatically push a single view onto the stack. This is useful
+    /// for building components that can push an associated view. For example,
+    /// you can present a `ColorDetail` view for a particular color:
+    ///
+    ///    @State private var showDetails = false
+    ///    var favoriteColor: Color
+    ///
+    ///    NavigationStackPlus {
+    ///        VStack {
+    ///            Circle()
+    ///                .fill(favoriteColor)
+    ///            Button("Show details") {
+    ///                showDetails = true
+    ///            }
+    ///        }
+    ///        .navigationDestinationPlus(isPresented: $showDetails) {
+    ///            ColorDetail(color: favoriteColor)
+    ///        }
+    ///        .navigationTitle("My Favorite Color")
+    ///    }
+    ///
+    /// Do not put a navigation destination modifier inside a "lazy" container,
+    /// like ``List`` or ``LazyVStack``. These containers create child views
+    /// only when needed to render on screen. Add the navigation destination
+    /// modifier outside these containers so that the navigation stack can
+    /// always see the destination.
+    ///
+    /// - Parameters:
+    ///   - isPresented: A binding to a Boolean value that indicates whether
+    ///     `destination` is currently presented.
+    ///   - destination: A view to present.
+    public func navigationDestinationPlus<V>(
+        isPresented: Binding<Bool>,
+        @ViewBuilder destination: () -> V) -> some View where V : View {
+            self
+                .navigationDestination(isPresented: isPresented) {
+                    CustomNavigationHeaderContainerView(content: destination)
+                        .toolbar(.hidden, for: .navigationBar)
+                }
+
+        }
+
+    /// Associates a destination view with a bound value for use within a
+    /// navigation stack or navigation split view
+    ///
+    /// Add this view modifier to a view inside a ``NavigationStackPlus``
+    /// to describe the view that the stack displays
+    /// when presenting a particular kind of data. Programmatically update
+    /// the binding to display or remove the view. For example, you can replace
+    /// the view showing in the detail column of a navigation split view:
+    ///
+    ///     @State private var colorShown: Color?
+    ///
+    ///     NavigationStackPlus {
+    ///         GeometryScrollView {
+    ///             Button("Mint") { colorShown = .mint }
+    ///             Button("Pink") { colorShown = .pink }
+    ///             Button("Teal") { colorShown = .teal }
+    ///         }
+    ///         .navigationDestinationPlus(item: $colorShown) { color in
+    ///             ColorDetail(color: color)
+    ///         }
+    ///     }
+    ///
+    /// When the person using the app taps on the Mint button, the mint color
+    /// shows in the detail and `colorShown` gets the value `Color.mint`. You
+    /// can reset the navigation stack  to show the message "Select a color"
+    /// by setting `colorShown` back to `nil`.
+    ///
+    /// You can add more than one navigation destination modifier to the stack
+    /// if it needs to present more than one kind of data.
+    ///
+    /// Do not put a navigation destination modifier inside a "lazy" container,
+    /// like ``List`` or ``LazyVStack``. These containers create child views
+    /// only when needed to render on screen. Add the navigation destination
+    /// modifier outside these containers so that the navigation split view can
+    /// always see the destination.
+    ///
+    /// - Parameters:
+    ///   - item: A binding to the data presented, or `nil` if nothing is
+    ///     currently presented.
+    ///   - destination: A view builder that defines a view to display
+    ///     when `item` is not `nil`.
+    public func navigationDestinationPlus<D, C>(
+        item: Binding<D?>,
+        @ViewBuilder destination: @escaping (D) -> C) -> some View where D : Hashable, C : View {
+            self
+                .navigationDestination(item: item) { item in
+                    CustomNavigationHeaderContainerView {
+                        destination(item)
+                    }
+                }
+                .toolbar(.hidden, for: .bottomBar)
+        }
 }
 
 extension View {
