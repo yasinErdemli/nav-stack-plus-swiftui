@@ -17,10 +17,10 @@ public struct CustomNavigationHeaderIconOnlyLabelStyle: LabelStyle {
 }
 
 extension LabelStyle where Self == CustomNavigationHeaderIconOnlyLabelStyle {
-    public static func customIconOnly(size: CGSize) -> CustomNavigationHeaderIconOnlyLabelStyle {
+    public static func iconOnlyPlus(size: CGSize) -> CustomNavigationHeaderIconOnlyLabelStyle {
         CustomNavigationHeaderIconOnlyLabelStyle(size: size)
     }
-    public static func customIconOnly(
+    public static func iconOnlyPlus(
         width: CGFloat? = nil,
         height: CGFloat? = nil) -> CustomNavigationHeaderIconOnlyLabelStyle {
             if let width, height == nil {
@@ -30,9 +30,9 @@ extension LabelStyle where Self == CustomNavigationHeaderIconOnlyLabelStyle {
             } else if let height, let width {
                 return CustomNavigationHeaderIconOnlyLabelStyle(size: .init(width: width, height: height))
             }
-            return customIconOnly()
+            return iconOnlyPlus()
     }
-    public static func customIconOnly() -> CustomNavigationHeaderIconOnlyLabelStyle {
+    public static var iconOnlyPlus: CustomNavigationHeaderIconOnlyLabelStyle {
         CustomNavigationHeaderIconOnlyLabelStyle(size: .init(width: 44, height: 44))
     }
 }

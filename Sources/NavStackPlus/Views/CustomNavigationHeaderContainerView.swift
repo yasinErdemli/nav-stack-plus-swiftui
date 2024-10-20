@@ -10,7 +10,7 @@ import ScrollPlus
 
 struct CustomNavigationHeaderContainerView<Content: View>: View {
     let content: Content
-    @State private var labels: [CustomToolbarItem] = []
+    @State private var labels: [ToolbarItemPlus] = []
     @State private var backgroundOpacity: CGFloat = 0
     @State private var offset: CGFloat = .zero
     @State private var backButtonDisabled: Bool = false
@@ -73,14 +73,14 @@ struct CustomNavigationHeaderContainerView<Content: View>: View {
             }
         }
         .toolbarPlus {
-            CustomToolbarItem(placement: .leading) {
+            ToolbarItemPlus(placement: .leading) {
                 Button("Profile", systemImage: "person.circle.fill", action: { })
                     .font(.title)
             }
-            CustomToolbarItem(placement: .principal) {
+            ToolbarItemPlus(placement: .principal) {
                 Text("Custom Nav Stack")
             }
-            CustomToolbarItem(placement: .trailing) {
+            ToolbarItemPlus(placement: .trailing) {
                 Button("More Options", systemImage: "ellipsis.circle.fill", action: {})
                     .foregroundStyle(.purple)
             }

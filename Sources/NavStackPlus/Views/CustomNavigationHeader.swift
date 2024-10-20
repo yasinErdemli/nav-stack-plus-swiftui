@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomNavigationHeader: View {
-    let labels: [CustomToolbarItem]
+    let labels: [ToolbarItemPlus]
     let background: EquatableViewContainer
     let backgroundOpacity: CGFloat
     let backButtonDisabled: Bool
@@ -105,19 +105,19 @@ extension CustomNavigationHeader {
 }
 
 extension CustomNavigationHeader {
-    private var trailingLabels: [CustomToolbarItem] {
+    private var trailingLabels: [ToolbarItemPlus] {
         getValues(for: labels, selection: .trailing, max: 2)
     }
-    private var principalLabel: CustomToolbarItem? {
+    private var principalLabel: ToolbarItemPlus? {
         getValues(for: labels, selection: .principal, max: 1).last
     }
-    private var leadingLabels: [CustomToolbarItem] {
+    private var leadingLabels: [ToolbarItemPlus] {
         getValues(for: labels, selection: .leading, max: 2)
     }
     private func getValues(
-        for items: [CustomToolbarItem],
+        for items: [ToolbarItemPlus],
         selection: CustomToolbarItemPlacement,
-        max value: Int) -> [CustomToolbarItem] {
+        max value: Int) -> [ToolbarItemPlus] {
             let usableItems = items.filter { $0.placement == selection }
             let toBeDeletedCount = abs(min(0, value - usableItems.count))
             return usableItems.dropFirst(toBeDeletedCount).map { $0 }.reversed()
@@ -130,14 +130,14 @@ extension CustomNavigationHeader {
             .fill(.blue)
             .ignoresSafeArea()
             .toolbarPlus {
-                CustomToolbarItem(placement: .leading) {
+                ToolbarItemPlus(placement: .leading) {
                     Button("Profile", systemImage: "person.circle.fill", action: { })
                         .font(.title)
                 }
-                CustomToolbarItem(placement: .principal) {
+                ToolbarItemPlus(placement: .principal) {
                     Text("Custom Nav Stack")
                 }
-                CustomToolbarItem(placement: .trailing) {
+                ToolbarItemPlus(placement: .trailing) {
                     Button("More Options", systemImage: "ellipsis.circle.fill", action: {})
                         .foregroundStyle(.purple)
                 }

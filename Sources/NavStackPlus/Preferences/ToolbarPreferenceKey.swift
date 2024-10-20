@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ToolbarPreferenceKey: PreferenceKey {
-    static let defaultValue: [CustomToolbarItem] = []
-    static func reduce(value: inout [CustomToolbarItem], nextValue: () -> [CustomToolbarItem]) {
+    static let defaultValue: [ToolbarItemPlus] = []
+    static func reduce(value: inout [ToolbarItemPlus], nextValue: () -> [ToolbarItemPlus]) {
         value += nextValue()
     }
 }

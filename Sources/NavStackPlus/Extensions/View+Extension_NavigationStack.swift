@@ -25,7 +25,7 @@ extension View {
 
 extension View {
     @ViewBuilder
-    public func toolbarPlus(@CustomToolbarItemBuilder content: () -> [CustomToolbarItem]) -> some View {
+    public func toolbarPlus(@ToolbarItemPlusBuilder content: () -> [ToolbarItemPlus]) -> some View {
         self
             .preference(key: ToolbarPreferenceKey.self, value: content())
     }

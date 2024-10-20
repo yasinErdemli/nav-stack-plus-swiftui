@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-protocol CustomToolbarItemable: Identifiable, Hashable, Sendable {
+protocol ToolbarItemable: Identifiable, Hashable, Sendable {
     var id: UUID { get }
     var placement: CustomToolbarItemPlacement { get }
     var content: AnyView { get }
 }
 
-public struct CustomToolbarItem: CustomToolbarItemable {
+public struct ToolbarItemPlus: ToolbarItemable {
     public let id: UUID = .init()
     let placement: CustomToolbarItemPlacement
     let content: AnyView
@@ -23,7 +23,7 @@ public struct CustomToolbarItem: CustomToolbarItemable {
         self.content = AnyView(content())
     }
 
-    public static func == (lhs: CustomToolbarItem, rhs: CustomToolbarItem) -> Bool {
+    public static func == (lhs: ToolbarItemPlus, rhs: ToolbarItemPlus) -> Bool {
         lhs.id == rhs.id
     }
 

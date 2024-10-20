@@ -26,7 +26,7 @@ struct CustomHeaderBackButton: View {
         } primaryAction: {
             dismiss()
         }
-        .labelStyle(.customIconOnly(width: 23))
+        .labelStyle(.iconOnlyPlus(width: 23))
         .foregroundStyle(.primary)
         .background {
             GeometryReader { geo in

@@ -8,8 +8,8 @@
 import SwiftUI
 
 @resultBuilder
-public struct CustomToolbarItemBuilder {
-    public static func buildBlock(_ components: CustomToolbarItem...) -> [CustomToolbarItem] {
+public struct ToolbarItemPlusBuilder {
+    public static func buildBlock(_ components: ToolbarItemPlus...) -> [ToolbarItemPlus] {
         return components
     }
 }
