@@ -7,6 +7,7 @@
 
 import SwiftUI
 @_spi(Advanced) import SwiftUIIntrospect
+import ScrollPlus
 
 extension View {
     public func customNavigationDestination<D, C>(
@@ -39,7 +40,16 @@ extension View {
     @ViewBuilder
     public func customToolbarBackground(opacity: CGFloat) -> some View {
         self
-            .preference(key: ToolbarBackgroundOpacityPreferenceKey.self, value: opacity)
+            .transformPreference(GeometryScrollOpacityPreferenceKey.self) { value in
+                value = opacity
+            }
+    }
+
+    public func customToolbarBackground(maxOpacity: CGFloat) -> some View {
+        self
+            .transformPreference(GeometryScrollOpacityPreferenceKey.self) { value in
+                value = min(maxOpacity, value)
+            }
     }
 
     @ViewBuilder

@@ -1,18 +1,21 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by Yasin Erdemli on 24/8/24.
 //
 
-import SwiftUI
 import ScrollPlus
+import SwiftUI
 
 struct CustomNavigationLink<Label: View, Destination: View>: View {
     let destination: Destination?
     let label: Label
     let value: AnyHashable?
-    init(@ViewBuilder destination: () -> Destination, @ViewBuilder label: () -> Label) {
+    init(
+        @ViewBuilder destination: () -> Destination,
+        @ViewBuilder label: () -> Label
+    ) {
         self.destination = destination()
         self.label = label()
         self.value = nil
@@ -35,17 +38,20 @@ extension CustomNavigationLink where Destination == Never {
         self.label = label()
         self.destination = nil
     }
-    init<P>(_ titleKey: LocalizedStringKey, value: P?) where Label == Text, P: Hashable {
+    init<P>(_ titleKey: LocalizedStringKey, value: P?)
+    where Label == Text, P: Hashable {
         self.label = .init(titleKey)
         self.value = value
         self.destination = nil
     }
-    init<S, P>(_ title: S, value: P?) where Label == Text, S: StringProtocol, P: Hashable {
+    init<S, P>(_ title: S, value: P?)
+    where Label == Text, S: StringProtocol, P: Hashable {
         self.label = .init(title)
         self.value = value
         self.destination = nil
     }
-    init<P>(value: P?, @ViewBuilder label: () -> Label) where P: Decodable, P: Encodable, P: Hashable {
+    init<P>(value: P?, @ViewBuilder label: () -> Label)
+    where P: Decodable, P: Encodable, P: Hashable {
         self.value = value
         self.label = label()
         self.destination = nil
@@ -58,7 +64,10 @@ extension CustomNavigationLink where Destination == Never {
 }
 
 extension CustomNavigationLink where Label == Text {
-    init(_ titleKey: LocalizedStringKey, @ViewBuilder destination: () -> Destination) {
+    init(
+        _ titleKey: LocalizedStringKey,
+        @ViewBuilder destination: () -> Destination
+    ) {
         self.label = .init(titleKey)
         self.destination = destination()
         self.value = nil
@@ -79,50 +88,83 @@ extension CustomNavigationLink where Label == Text {
 #Preview {
     return ExampleView()
     struct ExampleView: View {
-        @State private var opacity: CGFloat = 0
         var body: some View {
             CustomNavigationStack {
-                List(1..<10) { number in
-                    NavigationLink("Select \(number) ", value: number)
-                        .listRowBackground(Rectangle().fill(.red))
+                Group {
+                    GeometryScrollView {
+                        VStack {
+                            ForEach(1..<11) { number in
+                                NavigationLink(value: number) {
+                                    LabeledContent(
+                                        "Go To",
+                                        value: number.formatted(.number))
+                                }
+                                .foregroundStyle(.white)
+                            }
+                            .padding(.horizontal)
+                            .padding(.vertical, 8)
+                            .background(.red, in: .rect(cornerRadius: 12))
+                            .padding(.horizontal)
+                        }
+                    }
+                    .contentMargins(.top, 16, for: .scrollContent)
+                    .customNavigationDestination(for: Int.self) {
+                            TargetExampleView(number: $0)
+                    }
                 }
+                .navigationTitle("Custom Nav Stack")
                 .customToolbar {
                     CustomToolbarItem(placement: .leading) {
-                        Text("Hello")
-                            .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
-                            .foregroundStyle(.blue)
+                        Button(
+                            "Profile", systemImage: "person.circle.fill",
+                            action: {}
+                        )
+                        .font(.title)
                     }
-
-                    CustomToolbarItem(placement: .trailing) {
-                        Text("Tarot")
-                            .font(.largeTitle)
+                    CustomToolbarItem(placement: .principal) {
+                        Text("Custom Nav Stack")
                     }
                     CustomToolbarItem(placement: .trailing) {
-                        Text("Tarot")
-                            .font(.largeTitle)
+                        Button(
+                            "More Options", systemImage: "ellipsis.circle.fill",
+                            action: {}
+                        )
+                        .foregroundStyle(.purple)
                     }
                 }
+                .customToolbarScrollDisabled(true)
                 .customToolbarBackground {
                     Rectangle()
                         .fill(.ultraThinMaterial)
-                        .ignoresSafeArea()
+
                 }
-                .customNavigationDestination(for: Int.self) { _ in
-                    GeometryScrollView {
-                        ForEach(0..<20) { _ in
-                            Rectangle()
-                                .fill(.red)
-                                .frame(height: 200)
-                        }
-                    }
-                    .navigationTitle("world")
-                    .customToolbarBackground {
-                        Rectangle()
-                            .fill(.ultraThinMaterial)
-                            .ignoresSafeArea()
-                    }
+            }
+        }
+    }
+
+    struct TargetExampleView: View {
+        private let number: Int
+        init(number: Int) {
+            self.number = number
+        }
+        var body: some View {
+            GeometryScrollView {
+                ForEach(0..<20) { _ in
+                    Rectangle()
+                        .fill(.red)
+                        .frame(height: 200)
                 }
-                .navigationTitle("hello")
+            }
+            .navigationTitle("\(number)")
+            .customToolbar {
+                CustomToolbarItem(placement: .principal) {
+                    Text(number, format: .number)
+                }
+            }
+            .customToolbarBackground {
+                Rectangle()
+                    .fill(.bar)
+                    .ignoresSafeArea()
             }
         }
     }
