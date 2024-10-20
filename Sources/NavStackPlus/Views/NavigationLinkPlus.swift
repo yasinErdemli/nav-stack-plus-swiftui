@@ -8,10 +8,11 @@
 import ScrollPlus
 import SwiftUI
 
-struct PlusNavigationLink<Label: View, Destination: View>: View {
+struct NavigationLinkPlus<Label: View, Destination: View>: View {
     let destination: Destination?
     let label: Label
     let value: AnyHashable?
+
     init(
         @ViewBuilder destination: () -> Destination,
         @ViewBuilder label: () -> Label
@@ -20,6 +21,7 @@ struct PlusNavigationLink<Label: View, Destination: View>: View {
         self.label = label()
         self.value = nil
     }
+
     var body: some View {
         NavigationLink {
             CustomNavigationHeaderContainerView {
@@ -32,7 +34,7 @@ struct PlusNavigationLink<Label: View, Destination: View>: View {
     }
 }
 
-extension PlusNavigationLink where Destination == Never {
+extension NavigationLinkPlus where Destination == Never {
     init<P>(value: P?, @ViewBuilder label: () -> Label) where P: Hashable {
         self.value = value
         self.label = label()
@@ -63,7 +65,7 @@ extension PlusNavigationLink where Destination == Never {
     }
 }
 
-extension PlusNavigationLink where Label == Text {
+extension NavigationLinkPlus where Label == Text {
     init(
         _ titleKey: LocalizedStringKey,
         @ViewBuilder destination: () -> Destination
