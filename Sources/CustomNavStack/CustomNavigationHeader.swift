@@ -70,7 +70,9 @@ struct CustomNavigationHeader: View {
                 }
         }
         .frame(height: headerHeight)
-        .labelStyle(.customIconOnly(size: .init(width: 44, height: 44)))
+        .font(.title3)
+        .labelStyle(.iconOnly)
+        .buttonStyle(.plain)
         .padding(.horizontal, 16)
         .padding(.bottom, 8)
         .background {
@@ -82,11 +84,7 @@ struct CustomNavigationHeader: View {
         .opacity((labels.isEmpty && (isFirstController || backButtonDisabled)) ? 0 : 1)
         .frame(height: (labels.isEmpty && (isFirstController || backButtonDisabled)) ? 0 : nil)
         .onAppear {
-            Task {
-                await MainActor.run {
-                    self.previousControllers = getPreviousControllers()
-                }
-            }
+            self.previousControllers = getPreviousControllers()
         }
         .offset(y: -offset)
     }
@@ -127,66 +125,24 @@ extension CustomNavigationHeader {
 }
 
 #Preview {
-    return ExampleView()
-    struct ExampleView: View {
-        @State private var offset: CGFloat = 0
+    CustomNavigationStack {
+        Rectangle()
+            .fill(.blue)
+            .ignoresSafeArea()
+            .customToolbar {
+                CustomToolbarItem(placement: .leading) {
+                    Button("Profile", systemImage: "person.circle.fill", action: { })
+                        .font(.title)
+                }
+                CustomToolbarItem(placement: .principal) {
+                    Text("Custom Nav Stack")
+                }
+                CustomToolbarItem(placement: .trailing) {
+                    Button("More Options", systemImage: "ellipsis.circle.fill", action: {})
+                        .foregroundStyle(.purple)
+                }
 
-        var body: some View {
-            CustomNavigationStack {
-                Rectangle()
-                    .fill(.blue)
-                    .ignoresSafeArea()
-                    .task {
-
-                    }
-                    .customToolbar {
-                        CustomToolbarItem(placement: .leading) {
-                            Button(action: {}, label: {
-                                Label {
-                                    Text("Hello")
-                                } icon: {
-                                    Image(systemName: "xmark")
-                                        .resizable()
-                                }
-                            })
-                        }
-                        CustomToolbarItem(placement: .principal) {
-                            Label {
-                                Text("Hello")
-                            } icon: {
-                                Image(uiImage: .actions)
-                                    .resizable()
-                            }
-                        }
-
-                        CustomToolbarItem(placement: .trailing) {
-                            Label {
-                                Text("World")
-                            } icon: {
-                                Image(uiImage: .actions)
-                                    .resizable()
-                            }
-                        }
-
-                        CustomToolbarItem(placement: .leading) {
-                            Label {
-                                Text("Hello")
-                            } icon: {
-                                Image(uiImage: .actions)
-                                    .resizable()
-                            }
-                        }
-
-                        CustomToolbarItem(placement: .trailing) {
-                            Label(
-                                title: { Text("Hi") },
-                                icon: { Image(systemName: "person.fill").resizable() }
-                            )
-                        }
-                    }
-                    .customToolbarBackground(opacity: 1)
             }
-            .preferredColorScheme(.dark)
-        }
+            .customToolbarBackground(opacity: 0.4)
     }
 }
