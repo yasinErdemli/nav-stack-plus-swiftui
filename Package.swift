@@ -4,13 +4,13 @@
 import PackageDescription
 
 let package = Package(
-    name: "custom-nav-stack-swiftui",
+    name: "nav-stack-plus-swiftui",
     platforms: [.iOS(.v17)],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
-            name: "CustomNavStack",
-            targets: ["CustomNavStack"])
+            name: "NavStackPlus",
+            targets: ["NavStackPlus"])
     ],
     dependencies: [
         .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.3.0"),
@@ -20,7 +20,7 @@ let package = Package(
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "CustomNavStack",
+            name: "NavStackPlus",
             dependencies: [
                 .product(name: "SwiftUIIntrospect", package: "swiftui-introspect"),
                 .product(name: "ScrollPlus", package: "scroll-plus-swiftui")

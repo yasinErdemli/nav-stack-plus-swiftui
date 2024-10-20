@@ -8,7 +8,7 @@
 import ScrollPlus
 import SwiftUI
 
-struct CustomNavigationLink<Label: View, Destination: View>: View {
+struct PlusNavigationLink<Label: View, Destination: View>: View {
     let destination: Destination?
     let label: Label
     let value: AnyHashable?
@@ -32,7 +32,7 @@ struct CustomNavigationLink<Label: View, Destination: View>: View {
     }
 }
 
-extension CustomNavigationLink where Destination == Never {
+extension PlusNavigationLink where Destination == Never {
     init<P>(value: P?, @ViewBuilder label: () -> Label) where P: Hashable {
         self.value = value
         self.label = label()
@@ -63,7 +63,7 @@ extension CustomNavigationLink where Destination == Never {
     }
 }
 
-extension CustomNavigationLink where Label == Text {
+extension PlusNavigationLink where Label == Text {
     init(
         _ titleKey: LocalizedStringKey,
         @ViewBuilder destination: () -> Destination
@@ -89,7 +89,7 @@ extension CustomNavigationLink where Label == Text {
     return ExampleView()
     struct ExampleView: View {
         var body: some View {
-            CustomNavigationStack {
+            PlusNavigationStack {
                 Group {
                     GeometryScrollView {
                         VStack {
@@ -108,12 +108,15 @@ extension CustomNavigationLink where Label == Text {
                         }
                     }
                     .contentMargins(.top, 16, for: .scrollContent)
-                    .customNavigationDestination(for: Int.self) {
+                    .plusNavigationDestination(for: Int.self) {
                             TargetExampleView(number: $0)
                     }
                 }
+                .navigationDestination(for: Int.self, destination: { num in
+                    TargetExampleView(number: num)
+                })
                 .navigationTitle("Custom Nav Stack")
-                .customToolbar {
+                .plusToolbar {
                     CustomToolbarItem(placement: .leading) {
                         Button(
                             "Profile", systemImage: "person.circle.fill",
@@ -132,8 +135,8 @@ extension CustomNavigationLink where Label == Text {
                         .foregroundStyle(.purple)
                     }
                 }
-                .customToolbarScrollDisabled(true)
-                .customToolbarBackground {
+                .plusToolbarScrollDisabled(true)
+                .plusToolbarBackground {
                     Rectangle()
                         .fill(.ultraThinMaterial)
 
@@ -156,12 +159,12 @@ extension CustomNavigationLink where Label == Text {
                 }
             }
             .navigationTitle("\(number)")
-            .customToolbar {
+            .plusToolbar {
                 CustomToolbarItem(placement: .principal) {
                     Text(number, format: .number)
                 }
             }
-            .customToolbarBackground {
+            .plusToolbarBackground {
                 Rectangle()
                     .fill(.bar)
                     .ignoresSafeArea()

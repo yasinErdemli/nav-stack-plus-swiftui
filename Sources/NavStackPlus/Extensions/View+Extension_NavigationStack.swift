@@ -10,7 +10,7 @@ import SwiftUI
 import ScrollPlus
 
 extension View {
-    public func customNavigationDestination<D, C>(
+    public func plusNavigationDestination<D, C>(
         for data: D.Type,
         @ViewBuilder destination: @escaping (D) -> C) -> some View where D: Hashable, C: View {
         self
@@ -25,27 +25,27 @@ extension View {
 
 extension View {
     @ViewBuilder
-    public func customToolbar(@CustomToolbarItemBuilder content: () -> [CustomToolbarItem]) -> some View {
+    public func plusToolbar(@CustomToolbarItemBuilder content: () -> [CustomToolbarItem]) -> some View {
         self
             .preference(key: ToolbarPreferenceKey.self, value: content())
     }
 
    @ViewBuilder
-    public func customToolbarBackground<Content: View>(@ViewBuilder _ background: () -> Content) -> some View {
+    public func plusToolbarBackground<Content: View>(@ViewBuilder _ background: () -> Content) -> some View {
         let value = EquatableViewContainer(content: background)
         self
             .preference(key: ToolbarBackgroundPreferenceKey.self, value: value)
     }
 
     @ViewBuilder
-    public func customToolbarBackground(opacity: CGFloat) -> some View {
+    public func plusToolbarBackground(opacity: CGFloat) -> some View {
         self
             .transformPreference(GeometryScrollOpacityPreferenceKey.self) { value in
                 value = opacity
             }
     }
 
-    public func customToolbarBackground(maxOpacity: CGFloat) -> some View {
+    public func plusToolbarBackground(maxOpacity: CGFloat) -> some View {
         self
             .transformPreference(GeometryScrollOpacityPreferenceKey.self) { value in
                 value = min(maxOpacity, value)
@@ -53,20 +53,20 @@ extension View {
     }
 
     @ViewBuilder
-    public func customToolbarBackButtonHidden(_ isHidden: Bool) -> some View {
+    public func plusToolbarBackButtonHidden(_ isHidden: Bool) -> some View {
         self
             .preference(key: ToolbarBackButtonDisabledPreferenceKey.self, value: isHidden)
     }
 
     @ViewBuilder
-    public func customToolbarScrollDisabled(_ isDisabled: Bool) -> some View {
+    public func plusToolbarScrollDisabled(_ isDisabled: Bool) -> some View {
         self
             .preference(key: ToolbarScrollDisabledPreferenceKey.self, value: isDisabled)
     }
 }
 
 extension View {
-    public func injectNavControllerToEnvironment() -> some View {
+    func injectNavControllerToEnvironment() -> some View {
         self
             .modifier(InjectNavgigationController())
     }
