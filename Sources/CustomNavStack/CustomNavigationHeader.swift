@@ -16,18 +16,19 @@ struct CustomNavigationHeader: View {
     @State private var headerHeight: CGFloat = .zero
     @Environment(\.dismiss) var dismiss
     @Environment(\.navigationController) var navigationController
+    @Environment(\.layoutDirection) var layoutDirection
     @State private var previousControllers: [UIViewController] = []
     var body: some View {
         HStack {
             Spacer()
-                .overlay(alignment: .leading) {
+                .overlay(alignment: layoutDirection == .leftToRight ? .leading : .trailing) {
                     HStack {
                         if !isFirstController && !backButtonDisabled {
                             CustomHeaderBackButton(
                                 headerHeight: $headerHeight,
                                 previousControllers: previousControllers)
                         }
-                        ForEach(leadingLabels) { label in
+                        ForEach(layoutDirection == .leftToRight ? leadingLabels : trailingLabels) { label in
                             label.content
                                 .background {
                                     GeometryReader { geo in
@@ -52,9 +53,9 @@ struct CustomNavigationHeader: View {
                     }
             }
             Spacer()
-                .overlay(alignment: .trailing) {
+                .overlay(alignment: layoutDirection == .leftToRight ? .trailing : .leading) {
                     HStack {
-                        ForEach(trailingLabels) { label in
+                        ForEach(layoutDirection == .leftToRight ? trailingLabels : leadingLabels) { label in
                             label.content
                                 .background {
                                     GeometryReader { geo in
@@ -93,15 +94,6 @@ struct CustomNavigationHeader: View {
 }
 
 extension CustomNavigationHeader {
-    private func getCurrentNavigationViewController() -> UINavigationController? {
-        let application = UIApplication.shared
-        guard let tabBarController = application.findTabController() else {
-            return application.findNavigationController()
-        }
-        let selectedViewController = tabBarController.selectedViewController
-        return application.findNavigationController(viewController: selectedViewController)
-    }
-
     private func getPreviousControllers() -> [UIViewController] {
         guard let viewControllers = navigationController?.viewControllers else {
             return []

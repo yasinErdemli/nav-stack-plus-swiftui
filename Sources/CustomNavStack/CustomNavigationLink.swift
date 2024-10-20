@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ScrollPlus
 
 struct CustomNavigationLink<Label: View, Destination: View>: View {
     let destination: Destination?

@@ -13,8 +13,8 @@ let package = Package(
             targets: ["CustomNavStack"])
     ],
     dependencies: [
-        .package(
-            url: "https://github.com/siteline/swiftui-introspect", from: "1.3.0")
+        .package(url: "https://github.com/siteline/swiftui-introspect", from: "1.3.0"),
+        .package(url: "https://github.com/yasinErdemli/scroll-plus-swiftui", from: "1.2.3")
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -22,7 +22,8 @@ let package = Package(
         .target(
             name: "CustomNavStack",
             dependencies: [
-                .product(name: "SwiftUIIntrospect", package: "swiftui-introspect")
+                .product(name: "SwiftUIIntrospect", package: "swiftui-introspect"),
+                .product(name: "ScrollPlus", package: "scroll-plus-swiftui")
             ]
         )
     ]

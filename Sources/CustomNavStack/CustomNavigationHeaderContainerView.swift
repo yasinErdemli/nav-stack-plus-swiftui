@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ScrollPlus
 
 struct CustomNavigationHeaderContainerView<Content: View>: View {
     let content: Content
