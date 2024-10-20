@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct PlusNavigationStack<Data, Root>: View where Root: View {
+public struct NavigationStackPlus<Data, Root>: View where Root: View {
     @Binding var path: Data
     let root: Root
     public init(@ViewBuilder root: () -> Root) where Data == NavigationPath {
@@ -25,7 +25,7 @@ public struct PlusNavigationStack<Data, Root>: View where Root: View {
     }
 }
 
-extension PlusNavigationStack where Data == NavigationPath {
+extension NavigationStackPlus where Data == NavigationPath {
     public init(path: Binding<NavigationPath>, @ViewBuilder root: () -> Root) {
         self._path = path
         self.root = root()
@@ -41,7 +41,7 @@ extension PlusNavigationStack where Data == NavigationPath {
     }
 }
 
-extension PlusNavigationStack where Data: MutableCollection,
+extension NavigationStackPlus where Data: MutableCollection,
                                       Data: RandomAccessCollection,
                                       Data: RangeReplaceableCollection,
                                       Data.Element: Hashable {
@@ -61,7 +61,7 @@ extension PlusNavigationStack where Data: MutableCollection,
 }
 
 #Preview {
-    PlusNavigationStack(path: .constant(.init())) {
+    NavigationStackPlus(path: .constant(.init())) {
         Color.red.ignoresSafeArea()
     }
 }

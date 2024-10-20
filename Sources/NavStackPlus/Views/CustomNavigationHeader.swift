@@ -125,7 +125,7 @@ extension CustomNavigationHeader {
 }
 
 #Preview {
-    PlusNavigationStack {
+    NavigationStackPlus {
         Rectangle()
             .fill(.blue)
             .ignoresSafeArea()

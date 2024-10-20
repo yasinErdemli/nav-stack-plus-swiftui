@@ -91,7 +91,7 @@ extension NavigationLinkPlus where Label == Text {
     return ExampleView()
     struct ExampleView: View {
         var body: some View {
-            PlusNavigationStack {
+            NavigationStackPlus {
                 Group {
                     GeometryScrollView {
                         VStack {
