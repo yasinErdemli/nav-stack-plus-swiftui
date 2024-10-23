@@ -216,7 +216,21 @@ extension View {
         self
             .preference(key: ToolbarPreferenceKey.self, value: content())
     }
-
+    
+    /// Changes the default background of the navigationBar with the one you provide.
+    ///
+    ///     struct ToolbarBackgroundView: View {
+    ///         var body: some View {
+    ///             Text("Toolbar Background Example)
+    ///                 .toolbarBackgroundPlus {
+    ///                     Rectangle()
+    ///                         .fill(.red)
+    ///                 }
+    ///         }
+    ///     }
+    ///
+    /// - Parameter background: View that will be put on the background instead of the
+    /// default material.
     @ViewBuilder
     public func toolbarBackgroundPlus<Content: View>(
         @ViewBuilder _ background: () -> Content
@@ -226,6 +240,18 @@ extension View {
             .preference(key: ToolbarBackgroundPreferenceKey.self, value: value)
     }
 
+    
+    /// Changes the opacity of the background with the default one. This make it so that even if
+    /// ``GeometryScrollView`` provides an opacity, it will be overriden by this.
+    ///
+    ///     struct ToolbarBackgroundView: View {
+    ///         var body: some View {
+    ///             Text("Toolbar Background Example)
+    ///                 .toolbarBackgroundPlus(opacity: 0.5)
+    ///         }
+    ///     }
+    ///
+    /// - Parameter opacity: Background Opacity of the navigation bar. Between 0 to 1.
     @ViewBuilder
     public func toolbarBackgroundPlus(opacity: CGFloat) -> some View {
         self
@@ -235,6 +261,26 @@ extension View {
             }
     }
 
+
+    /// Changes the maximum opacity of the background. While you use ``GeometryScrollView``
+    /// it provides to the background some opacity value based on scroll. Use this to get a maximum amount
+    /// you want.
+    ///
+    ///     struct ToolbarBackgroundView: View {
+    ///         var body: some View {
+    ///             GeometryScrollView {
+    ///                VStack {
+    ///                    ForEach(0..<10) { _ in
+    ///                    Rectangle()
+    ///                        .frame(height: 200)
+    ///                    }
+    ///                }
+    ///             }
+    ///                 .toolbarBackgroundPlus(maxOpacity: 0.5)
+    ///         }
+    ///     }
+    ///
+    /// - Parameter maxOpacity: Maximum opacity value the navigationBar background can have.
     public func toolbarBackgroundPlus(maxOpacity: CGFloat) -> some View {
         self
             .transformPreference(GeometryScrollOpacityPreferenceKey.self) {
@@ -243,6 +289,9 @@ extension View {
             }
     }
 
+
+    /// Hides the navigation back button for the view.
+    /// - Parameter isHidden: boolean value that can hide or show the back button.
     @ViewBuilder
     public func navigationBarBackButtonHiddenPlus(_ isHidden: Bool) -> some View
     {
@@ -252,6 +301,13 @@ extension View {
                 value: isHidden)
     }
 
+
+    /// By default if you use ``GeometryScrollView`` it will provide offset values a header can have.
+    /// you can enable the same behaviour for the navigationBar. If you disable this. NavigationBar will not
+    /// change it's position no matter the offset value given by the ``GeometryScrollView``.
+    ///
+    /// - Parameter isDisabled: A boolean value that indicates if navigation bar can scroll with
+    /// ``GeometryScrollView`` or not.
     @ViewBuilder
     public func navigationBarScrollDisabledPlus(_ isDisabled: Bool) -> some View
     {
@@ -269,6 +325,10 @@ extension View {
 }
 
 extension View {
+
+    /// NavigationStack has a background by itself. If you want it to have a clear background or another
+    /// color that you may choose, you can do with this one.
+    /// - Parameter color: Color that will be applied as the navigationStack background color.
     public func navigationStackBackgroundColor(_ color: Color) -> some View {
         self
             .introspect(.navigationStack, on: .iOS(.v17...)) { stack in

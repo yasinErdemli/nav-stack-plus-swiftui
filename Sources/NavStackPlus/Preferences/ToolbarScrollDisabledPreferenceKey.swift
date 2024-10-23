@@ -8,6 +8,6 @@
 import SwiftUI
 
 struct ToolbarScrollDisabledPreferenceKey: PreferenceKey {
-    static let defaultValue: Bool = false
+    static let defaultValue: Bool = true
     static func reduce(value: inout Bool, nextValue: () -> Bool) { }
 }
