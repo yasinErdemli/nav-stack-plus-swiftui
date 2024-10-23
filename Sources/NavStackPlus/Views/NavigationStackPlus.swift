@@ -102,11 +102,14 @@ import SwiftUI
 /// kind of data, you can use a ``NavigationPath`` instance as the path.
 public struct NavigationStackPlus<Data, Root>: NavigationStackProtocol
 where Root: View {
+    
+    public var pathBinding: Binding<Data> { _path }
+    @Binding public var path: Data
+    public let root: Root
 
-    var pathBinding: Binding<Data> { _path }
-    @Binding var path: Data
-    let root: Root
-
+    func createNavigation() -> some View {
+        return returnView
+    }
 }
 
 extension NavigationStackPlus
@@ -128,7 +131,10 @@ where
     public init(path: Binding<Data>, @ViewBuilder root: () -> Root) {
         self._path = path
         self.root = root()
+    }
 
+    func createNavigation() -> some View {
+        return returnView
     }
 }
 
@@ -154,6 +160,9 @@ extension NavigationStackPlus where Data == NavigationPath {
     public init(path: Binding<Data>, @ViewBuilder root: () -> Root) {
         self._path = path
         self.root = root()
+    }
+    func createNavigation() -> some View {
+        return returnView
     }
 }
 
@@ -217,7 +226,7 @@ extension NavigationStackPlus where Data == NavigationPath {
                         .fill(.ultraThickMaterial)
                 }
                 .navigationBarScrollDisabledPlus(true)
-            }.returnView
+            }.createNavigation()
         }
     }
 
@@ -248,3 +257,5 @@ extension NavigationStackPlus where Data == NavigationPath {
         }
     }
 }
+
+

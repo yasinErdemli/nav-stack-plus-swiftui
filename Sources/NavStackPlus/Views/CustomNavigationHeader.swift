@@ -130,24 +130,24 @@ extension CustomNavigationHeader {
         }
 }
 
-#Preview {
-    NavigationStackPlus {
-        Rectangle()
-            .fill(.blue)
-            .ignoresSafeArea()
-            .toolbarPlus {
-                ToolbarItemPlus(placement: .leading) {
-                    Button("Profile", systemImage: "person.circle.fill", action: { })
-                        .font(.title)
-                }
-                ToolbarItemPlus(placement: .principal) {
-                    Text("Custom Nav Stack")
-                }
-                ToolbarItemPlus(placement: .trailing) {
-                    Button("More Options", systemImage: "ellipsis.circle.fill", action: {})
-                        .foregroundStyle(.purple)
-                }
-            }
-            .toolbarBackgroundPlus(opacity: 0.4)
-    }
-}
+//#Preview {
+//    NavigationStackPlus {
+//        Rectangle()
+//            .fill(.blue)
+//            .ignoresSafeArea()
+//            .toolbarPlus {
+//                ToolbarItemPlus(placement: .leading) {
+//                    Button("Profile", systemImage: "person.circle.fill", action: { })
+//                        .font(.title)
+//                }
+//                ToolbarItemPlus(placement: .principal) {
+//                    Text("Custom Nav Stack")
+//                }
+//                ToolbarItemPlus(placement: .trailing) {
+//                    Button("More Options", systemImage: "ellipsis.circle.fill", action: {})
+//                        .foregroundStyle(.purple)
+//                }
+//            }
+//            .toolbarBackgroundPlus(opacity: 0.4)
+//    }
+//}

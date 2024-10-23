@@ -441,7 +441,7 @@ extension NavigationLinkPlus where Label == Text {
                         .fill(.ultraThinMaterial)
 
                 }
-            }
+            }.createNavigation()
         }
     }
 
