@@ -5,9 +5,9 @@
 //  Created by Yasin Erdemli on 21/8/24.
 //
 
+import ScrollPlus
 import SwiftUI
 @_spi(Advanced) import SwiftUIIntrospect
-import ScrollPlus
 
 extension View {
     /// Associates a destination view with a presented data type for use within
@@ -57,15 +57,16 @@ extension View {
     ///     of the data to present.
     public func navigationDestinationPlus<D, C>(
         for data: D.Type,
-        @ViewBuilder destination: @escaping (D) -> C) -> some View where D: Hashable, C: View {
-            self
-                .navigationDestination(for: data) { item in
-                    CustomNavigationHeaderContainerView {
-                        destination(item)
-                    }
-                    .toolbar(.hidden, for: .navigationBar)
+        @ViewBuilder destination: @escaping (D) -> C
+    ) -> some View where D: Hashable, C: View {
+        self
+            .navigationDestination(for: data) { item in
+                CustomNavigationHeaderContainerView {
+                    destination(item)
                 }
-        }
+                .toolbar(.hidden, for: .navigationBar)
+            }
+    }
 
     /// Associates a destination view with a binding that can be used to push
     /// the view onto a ``NavigationStackPlus``.
@@ -105,14 +106,15 @@ extension View {
     ///   - destination: A view to present.
     public func navigationDestinationPlus<V>(
         isPresented: Binding<Bool>,
-        @ViewBuilder destination: () -> V) -> some View where V : View {
-            self
-                .navigationDestination(isPresented: isPresented) {
-                    CustomNavigationHeaderContainerView(content: destination)
-                        .toolbar(.hidden, for: .navigationBar)
-                }
+        @ViewBuilder destination: () -> V
+    ) -> some View where V: View {
+        self
+            .navigationDestination(isPresented: isPresented) {
+                CustomNavigationHeaderContainerView(content: destination)
+                    .toolbar(.hidden, for: .navigationBar)
+            }
 
-        }
+    }
 
     /// Associates a destination view with a bound value for use within a
     /// navigation stack or navigation split view
@@ -157,26 +159,68 @@ extension View {
     ///     when `item` is not `nil`.
     public func navigationDestinationPlus<D, C>(
         item: Binding<D?>,
-        @ViewBuilder destination: @escaping (D) -> C) -> some View where D : Hashable, C : View {
-            self
-                .navigationDestination(item: item) { item in
-                    CustomNavigationHeaderContainerView {
-                        destination(item)
-                    }
+        @ViewBuilder destination: @escaping (D) -> C
+    ) -> some View where D: Hashable, C: View {
+        self
+            .navigationDestination(item: item) { item in
+                CustomNavigationHeaderContainerView {
+                    destination(item)
                 }
-                .toolbar(.hidden, for: .bottomBar)
-        }
+            }
+            .toolbar(.hidden, for: .bottomBar)
+    }
 }
 
 extension View {
+
+    /// Populates the NavigationStackPlus bar with the specified items.
+    ///
+    /// Use this method to populate a navigation bar with a collection of views that
+    /// you provide to a toolbar view builder.
+    ///
+    /// The toolbarPlus modifier expects a collection of toolbar items which you can
+    /// provide  by supplying a collection of views with each view
+    /// wrapped in a ``ToolbarItemPlus``. The example below uses a collection of
+    /// ``ToolbarItemPlus`` views to create a navigation bar.:
+    ///
+    ///     struct StructToolbarItemView: View {
+    ///         var body: some View {
+    ///             Text("Toolbar Example)
+    ///                 .toolbarPlus {
+    ///                     ToolbarItemPlus(placement: .leading) {
+    ///                         Button(
+    ///                         "Profile", systemImage: "person.circle.fill",
+    ///                         action: {}
+    ///                         )
+    ///                         .font(.title)
+    ///                     }
+    ///                     ToolbarItemPlus(placement: .principal) {
+    ///                         Text("Custom Nav Stack")
+    ///                     }
+    ///                     ToolbarItemPlus(placement: .trailing) {
+    ///                         Button(
+    ///                         "More Options", systemImage: "ellipsis.circle.fill",
+    ///                         action: {}
+    ///                         )
+    ///                         .foregroundStyle(.purple)
+    ///                     }
+    ///                 }
+    ///             }
+    ///     }
+    ///
+    /// - Parameter content: The items representing the content of the toolbar.
     @ViewBuilder
-    public func toolbarPlus(@ToolbarItemPlusBuilder content: () -> [ToolbarItemPlus]) -> some View {
+    public func toolbarPlus(
+        @ToolbarItemPlusBuilder content: () -> [ToolbarItemPlus]
+    ) -> some View {
         self
             .preference(key: ToolbarPreferenceKey.self, value: content())
     }
 
     @ViewBuilder
-    public func toolbarBackgroundPlus<Content: View>(@ViewBuilder _ background: () -> Content) -> some View {
+    public func toolbarBackgroundPlus<Content: View>(
+        @ViewBuilder _ background: () -> Content
+    ) -> some View {
         let value = EquatableViewContainer(content: background)
         self
             .preference(key: ToolbarBackgroundPreferenceKey.self, value: value)
@@ -185,28 +229,35 @@ extension View {
     @ViewBuilder
     public func toolbarBackgroundPlus(opacity: CGFloat) -> some View {
         self
-            .transformPreference(GeometryScrollOpacityPreferenceKey.self) { value in
+            .transformPreference(GeometryScrollOpacityPreferenceKey.self) {
+                value in
                 value = opacity
             }
     }
 
     public func toolbarBackgroundPlus(maxOpacity: CGFloat) -> some View {
         self
-            .transformPreference(GeometryScrollOpacityPreferenceKey.self) { value in
+            .transformPreference(GeometryScrollOpacityPreferenceKey.self) {
+                value in
                 value = min(maxOpacity, value)
             }
     }
 
     @ViewBuilder
-    public func navigationBarBackButtonHiddenPlus(_ isHidden: Bool) -> some View {
+    public func navigationBarBackButtonHiddenPlus(_ isHidden: Bool) -> some View
+    {
         self
-            .preference(key: ToolbarBackButtonDisabledPreferenceKey.self, value: isHidden)
+            .preference(
+                key: ToolbarBackButtonDisabledPreferenceKey.self,
+                value: isHidden)
     }
 
     @ViewBuilder
-    public func navigationBarScrollDisabledPlus(_ isDisabled: Bool) -> some View {
+    public func navigationBarScrollDisabledPlus(_ isDisabled: Bool) -> some View
+    {
         self
-            .preference(key: ToolbarScrollDisabledPreferenceKey.self, value: isDisabled)
+            .preference(
+                key: ToolbarScrollDisabledPreferenceKey.self, value: isDisabled)
     }
 }
 
@@ -221,7 +272,9 @@ extension View {
     public func navigationStackBackgroundColor(_ color: Color) -> some View {
         self
             .introspect(.navigationStack, on: .iOS(.v17...)) { stack in
-                stack.viewControllers.forEach { $0.view.backgroundColor = UIColor(color) }
+                stack.viewControllers.forEach {
+                    $0.view.backgroundColor = UIColor(color)
+                }
             }
     }
 }
