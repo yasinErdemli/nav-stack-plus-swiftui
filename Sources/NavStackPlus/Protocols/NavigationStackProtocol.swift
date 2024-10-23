@@ -9,8 +9,6 @@ import SwiftUI
 
 // Protocol needed for NavigationStackPlus since Swift doesn't support
 // conformance to the same protocol even with different constraints.
-// This protocol implements View, and using body just once but this body,
-// gets it's view from the protocol's own returnView.
 @MainActor public protocol NavigationStackProtocol {
 
     associatedtype Data
