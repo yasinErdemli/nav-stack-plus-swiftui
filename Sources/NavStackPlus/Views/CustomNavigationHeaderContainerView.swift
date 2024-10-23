@@ -1,12 +1,12 @@
 //
 //  SwiftUIView.swift
-//  
+//
 //
 //  Created by Yasin Erdemli on 23/8/24.
 //
 
-import SwiftUI
 import ScrollPlus
+import SwiftUI
 
 struct CustomNavigationHeaderContainerView<Content: View>: View {
     let content: Content
@@ -38,7 +38,8 @@ struct CustomNavigationHeaderContainerView<Content: View>: View {
             .onPreferenceChange(ToolbarBackgroundPreferenceKey.self) { value in
                 self.background = value
             }
-            .onPreferenceChange(GeometryScrollOpacityPreferenceKey.self) { value in
+            .onPreferenceChange(GeometryScrollOpacityPreferenceKey.self) {
+                value in
                 self.backgroundOpacity = value
             }
             .onPreferenceChange(GeometryScrollOffsetPreferenceKey.self) { value in
@@ -48,10 +49,12 @@ struct CustomNavigationHeaderContainerView<Content: View>: View {
                     self.offset = 0
                 }
             }
-            .onPreferenceChange(ToolbarBackButtonDisabledPreferenceKey.self) { value in
+            .onPreferenceChange(ToolbarBackButtonDisabledPreferenceKey.self) {
+                value in
                 self.backButtonDisabled = value
             }
-            .onPreferenceChange(ToolbarScrollDisabledPreferenceKey.self) { value in
+            .onPreferenceChange(ToolbarScrollDisabledPreferenceKey.self) {
+                value in
                 self.scrollDisabled = value
             }
     }
@@ -74,15 +77,22 @@ struct CustomNavigationHeaderContainerView<Content: View>: View {
         }
         .toolbarPlus {
             ToolbarItemPlus(placement: .leading) {
-                Button("Profile", systemImage: "person.circle.fill", action: { })
+                Button("Profile",
+                       systemImage: "person.circle.fill",
+                       action: {}
+                )
                     .font(.title)
             }
             ToolbarItemPlus(placement: .principal) {
                 Text("Custom Nav Stack")
             }
             ToolbarItemPlus(placement: .trailing) {
-                Button("More Options", systemImage: "ellipsis.circle.fill", action: {})
-                    .foregroundStyle(.purple)
+                Button(
+                    "More Options",
+                    systemImage: "ellipsis.circle.fill",
+                    action: {}
+                )
+                .foregroundStyle(.purple)
             }
         }
         .toolbarBackgroundPlus(maxOpacity: 0.5)

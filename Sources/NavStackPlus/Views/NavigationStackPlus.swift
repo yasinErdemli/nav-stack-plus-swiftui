@@ -5,8 +5,8 @@
 //  Created by Yasin Erdemli on 18/8/24.
 //
 
-import SwiftUI
 import ScrollPlus
+import SwiftUI
 
 /// A view that displays a root view and enables you to present additional
 /// views over the root view.
@@ -100,7 +100,8 @@ import ScrollPlus
 ///
 /// To create a path for programmatic navigation that contains more than one
 /// kind of data, you can use a ``NavigationPath`` instance as the path.
-public struct NavigationStackPlus<Data, Root>: NavigationStackProtocol where Root: View {
+public struct NavigationStackPlus<Data, Root>: NavigationStackProtocol
+where Root: View {
 
     var pathBinding: Binding<Data> { _path }
     @Binding var path: Data
@@ -108,10 +109,13 @@ public struct NavigationStackPlus<Data, Root>: NavigationStackProtocol where Roo
 
 }
 
-extension NavigationStackPlus where Data: MutableCollection,
-                                    Data: RandomAccessCollection,
-                                    Data: RangeReplaceableCollection,
-                                    Data.Element: Hashable {
+extension NavigationStackPlus
+where
+    Data: MutableCollection,
+    Data: RandomAccessCollection,
+    Data: RangeReplaceableCollection,
+    Data.Element: Hashable
+{
 
     /// Creates a navigation stack with homogeneous navigation state that you
     /// can control.
@@ -153,9 +157,6 @@ extension NavigationStackPlus where Data == NavigationPath {
     }
 }
 
-
-
-
 #Preview {
     return ExampleView()
 
@@ -174,8 +175,11 @@ extension NavigationStackPlus where Data == NavigationPath {
                                     path.append(number)
                                     print(path)
                                 } label: {
-                                    LabeledContent("Go To", value: number.formatted(.number))
-                                        .foregroundStyle(.white)
+                                    LabeledContent(
+                                        "Go To",
+                                        value: number.formatted(.number)
+                                    )
+                                    .foregroundStyle(.white)
                                 }
                             }
                             .padding(.horizontal)
@@ -190,15 +194,21 @@ extension NavigationStackPlus where Data == NavigationPath {
                 }
                 .toolbarPlus {
                     ToolbarItemPlus(placement: .leading) {
-                        Button("Profile", systemImage: "person.circle.fill", action: { })
-                            .font(.title)
+                        Button(
+                            "Profile", systemImage: "person.circle.fill",
+                            action: {}
+                        )
+                        .font(.title)
                     }
                     ToolbarItemPlus(placement: .principal) {
                         Text("Custom Nav Stack")
                     }
                     ToolbarItemPlus(placement: .trailing) {
-                        Button("More Options", systemImage: "ellipsis.circle.fill", action: {})
-                            .foregroundStyle(.purple)
+                        Button(
+                            "More Options", systemImage: "ellipsis.circle.fill",
+                            action: {}
+                        )
+                        .foregroundStyle(.purple)
                     }
                 }
                 .toolbarBackgroundPlus(maxOpacity: 0.9)

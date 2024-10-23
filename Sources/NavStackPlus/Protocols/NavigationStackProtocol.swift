@@ -8,15 +8,14 @@
 import SwiftUI
 
 @MainActor protocol NavigationStackProtocol: View {
+
     associatedtype Data
     associatedtype Root: View
-    var path: Data { get set }
-    var root: Root { get }
 
+    var path: Data { get set }
     var pathBinding: Binding<Data> { get }
 
-
-
+    var root: Root { get }
 }
 
 extension NavigationStackProtocol {
@@ -26,7 +25,6 @@ extension NavigationStackProtocol {
     }
 
     @ViewBuilder var returnView: some View {
-
         NavigationStack {
             CustomNavigationHeaderContainerView {
                 root
@@ -34,11 +32,11 @@ extension NavigationStackProtocol {
             .toolbar(.hidden, for: .navigationBar)
         }
         .injectNavControllerToEnvironment()
-
     }
 }
 
-extension NavigationStackProtocol where Data == NavigationPath {
+extension NavigationStackProtocol
+where Data == NavigationPath {
     @ViewBuilder var returnView: some View {
         NavigationStack(path: pathBinding) {
             CustomNavigationHeaderContainerView {
@@ -47,11 +45,15 @@ extension NavigationStackProtocol where Data == NavigationPath {
             .toolbar(.hidden, for: .navigationBar)
         }
         .injectNavControllerToEnvironment()
-
     }
 }
 
-extension NavigationStackProtocol where Data: MutableCollection, Data: RandomAccessCollection, Data: RangeReplaceableCollection, Data.Element: Hashable {
+extension NavigationStackProtocol
+where Data: MutableCollection,
+      Data: RandomAccessCollection,
+      Data: RangeReplaceableCollection,
+      Data.Element: Hashable
+{
     @ViewBuilder var returnView: some View {
         NavigationStack(path: pathBinding) {
             CustomNavigationHeaderContainerView {

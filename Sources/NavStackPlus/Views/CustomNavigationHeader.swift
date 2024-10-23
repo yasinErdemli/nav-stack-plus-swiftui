@@ -28,7 +28,9 @@ struct CustomNavigationHeader: View {
                                 headerHeight: $headerHeight,
                                 previousControllers: previousControllers)
                         }
-                        ForEach(layoutDirection == .leftToRight ? leadingLabels : trailingLabels) { label in
+                        ForEach(
+                            layoutDirection == .leftToRight ? leadingLabels : trailingLabels
+                        ) { label in
                             label.content
                                 .background {
                                     GeometryReader { geo in
@@ -105,15 +107,19 @@ extension CustomNavigationHeader {
 }
 
 extension CustomNavigationHeader {
+
     private var trailingLabels: [ToolbarItemPlus] {
         getValues(for: labels, selection: .trailing, max: 2)
     }
+
     private var principalLabel: ToolbarItemPlus? {
         getValues(for: labels, selection: .principal, max: 1).last
     }
+
     private var leadingLabels: [ToolbarItemPlus] {
         getValues(for: labels, selection: .leading, max: 2)
     }
+    
     private func getValues(
         for items: [ToolbarItemPlus],
         selection: CustomToolbarItemPlacement,

@@ -184,12 +184,13 @@ extension NavigationLinkPlus where Destination == Never {
     ///     When the user selects the link, SwiftUI stores a copy of the value.
     ///     Pass a `nil` value to disable the link.
     ///   - label: A label that describes the view that this link presents.
-    public init<P>(value: P?, @ViewBuilder label: () -> Label) where P: Hashable {
+    public init<P>(value: P?, @ViewBuilder label: () -> Label)
+    where P: Hashable {
         self.value = value
         self.label = label()
         self.destination = nil
     }
-    
+
     /// Creates a navigation link that presents the view corresponding to a
     /// value.
     ///
@@ -301,7 +302,8 @@ extension NavigationLinkPlus where Destination == Never {
     ///   - value: An optional value to present. When someone
     ///     taps or clicks the link, SwiftUI stores a copy of the value.
     ///     Pass a `nil` value to disable the link.
-    public init<P>(_ titleKey: LocalizedStringKey, value: P?) where Label == Text, P : Decodable, P : Encodable, P : Hashable {
+    public init<P>(_ titleKey: LocalizedStringKey, value: P?)
+    where Label == Text, P: Decodable, P: Encodable, P: Hashable {
         self.label = .init(titleKey)
         self.value = value
         self.destination = nil
@@ -329,7 +331,11 @@ extension NavigationLinkPlus where Destination == Never {
     ///   - value: An optional value to present.
     ///     When the user selects the link, SwiftUI stores a copy of the value.
     ///     Pass a `nil` value to disable the link.
-    public init<S, P>(_ title: S, value: P?) where Label == Text, S : StringProtocol, P : Decodable, P : Encodable, P : Hashable {
+    public init<S, P>(_ title: S, value: P?)
+    where
+        Label == Text, S: StringProtocol, P: Decodable, P: Encodable,
+        P: Hashable
+    {
         self.label = .init(title)
         self.value = value
         self.destination = nil
@@ -364,10 +370,11 @@ extension NavigationLinkPlus where Label == Text {
     ///   - destination: A view for the navigation link to present.
     public init<S>(
         _ title: S,
-        @ViewBuilder destination: () -> Destination) where S : StringProtocol {
-            self.label = .init(title)
-            self.destination = destination()
-            self.value = nil
+        @ViewBuilder destination: () -> Destination
+    ) where S: StringProtocol {
+        self.label = .init(title)
+        self.destination = destination()
+        self.value = nil
     }
     public var body: some View {
         NavigationLink {
@@ -405,7 +412,7 @@ extension NavigationLinkPlus where Label == Text {
                     }
                     .contentMargins(.top, 16, for: .scrollContent)
                     .navigationDestinationPlus(for: Int.self) {
-                            TargetExampleView(number: $0)
+                        TargetExampleView(number: $0)
                     }
                 }
                 .navigationTitle("Custom Nav Stack")
