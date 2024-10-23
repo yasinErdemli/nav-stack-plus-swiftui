@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// This is needed to regain slide to back functionality when navigation button is hidden.
 extension UINavigationController: @retroactive UIGestureRecognizerDelegate {
     override open func viewDidLoad() {
         super.viewDidLoad()
