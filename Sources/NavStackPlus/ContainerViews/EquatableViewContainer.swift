@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Yasin Erdemli on 26/8/24.
 //
@@ -31,3 +31,5 @@ extension EquatableViewContainer: View {
         containedView
     }
 }
+
+extension AnyView: @retroactive Sendable {}

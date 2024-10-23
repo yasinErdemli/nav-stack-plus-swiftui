@@ -31,5 +31,3 @@ public struct ToolbarItemPlus: ToolbarItemable {
         hasher.combine(id)
     }
 }
-
-extension AnyView: @retroactive Sendable { }
