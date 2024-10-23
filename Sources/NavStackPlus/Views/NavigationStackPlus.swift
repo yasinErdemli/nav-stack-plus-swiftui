@@ -207,20 +207,7 @@ extension NavigationStackProtocol where Data: MutableCollection, Data: RandomAcc
 
 #Preview {
     return ExampleView()
-
-    struct Try: View {
-        @State var path: NavigationPath = .init()
-        var body: some View {
-            Color.red
-                .task {
-                    let view = NavigationStack {
-
-                    }
-                    let mirror = Mirror(reflecting: view)
-                    print(mirror)
-                }
-        }
-    }
+    
     struct ExampleView: View {
         @State var path: [Int] = .init()
         var body: some View {
