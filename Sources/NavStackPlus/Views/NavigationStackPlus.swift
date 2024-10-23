@@ -106,13 +106,13 @@ public struct NavigationStackPlus<Data, Root>: NavigationStackProtocol where Roo
     @Binding var path: Data
     let root: Root
 
-    public var body: some View {
-        returnView
-    }
 }
 
+extension NavigationStackPlus where Data: MutableCollection,
+                                    Data: RandomAccessCollection,
+                                    Data: RangeReplaceableCollection,
+                                    Data.Element: Hashable {
 
-extension NavigationStackPlus where Data: MutableCollection, Data: RandomAccessCollection, Data: RangeReplaceableCollection, Data.Element: Hashable {
     /// Creates a navigation stack with homogeneous navigation state that you
     /// can control.
     ///
@@ -129,6 +129,7 @@ extension NavigationStackPlus where Data: MutableCollection, Data: RandomAccessC
 }
 
 extension NavigationStackPlus where Data == NavigationPath {
+
     /// Creates a navigation stack that manages its own navigation state.
     ///
     /// - Parameters:
@@ -153,61 +154,11 @@ extension NavigationStackPlus where Data == NavigationPath {
 }
 
 
-@MainActor protocol NavigationStackProtocol: View {
-    associatedtype Data
-    associatedtype Root: View
-    var path: Data { get set }
-    var root: Root { get }
-
-    var pathBinding: Binding<Data> { get }
-}
-
-extension NavigationStackProtocol {
-
-
-    @ViewBuilder var returnView: some View {
-
-        NavigationStack {
-            CustomNavigationHeaderContainerView {
-                root
-            }
-            .toolbar(.hidden, for: .navigationBar)
-        }
-        .injectNavControllerToEnvironment()
-
-    }
-}
-
-extension NavigationStackProtocol where Data == NavigationPath {
-    @ViewBuilder var returnView: some View {
-        NavigationStack(path: pathBinding) {
-            CustomNavigationHeaderContainerView {
-                root
-            }
-            .toolbar(.hidden, for: .navigationBar)
-        }
-        .injectNavControllerToEnvironment()
-
-    }
-}
-
-extension NavigationStackProtocol where Data: MutableCollection, Data: RandomAccessCollection, Data: RangeReplaceableCollection, Data.Element: Hashable {
-    @ViewBuilder var returnView: some View {
-        NavigationStack(path: pathBinding) {
-            CustomNavigationHeaderContainerView {
-                root
-            }
-            .toolbar(.hidden, for: .navigationBar)
-        }
-        .injectNavControllerToEnvironment()
-    }
-}
-
 
 
 #Preview {
     return ExampleView()
-    
+
     struct ExampleView: View {
         @State var path: [Int] = .init()
         var body: some View {
