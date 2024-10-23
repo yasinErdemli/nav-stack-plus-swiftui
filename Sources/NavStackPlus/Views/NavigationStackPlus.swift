@@ -100,16 +100,15 @@ import ScrollPlus
 ///
 /// To create a path for programmatic navigation that contains more than one
 /// kind of data, you can use a ``NavigationPath`` instance as the path.
-public struct NavigationStackPlus<Data, Root>: NavigationStackProtocol, View where Root: View {
-    public var body: AnyView {
-        returnView
-    }
-
-    public typealias Body = AnyView
+public struct NavigationStackPlus<Data, Root>: NavigationStackProtocol where Root: View {
 
     var pathBinding: Binding<Data> { _path }
     @Binding var path: Data
     let root: Root
+
+    public var body: some View {
+        returnView
+    }
 }
 
 
@@ -154,56 +153,53 @@ extension NavigationStackPlus where Data == NavigationPath {
 }
 
 
-@MainActor protocol NavigationStackProtocol {
+@MainActor protocol NavigationStackProtocol: View {
     associatedtype Data
     associatedtype Root: View
-
     var path: Data { get set }
     var root: Root { get }
-    var returnView: AnyView { get }
 
     var pathBinding: Binding<Data> { get }
 }
 
 extension NavigationStackProtocol {
-    @ViewBuilder var returnView: AnyView {
-        AnyView(
-            NavigationStack {
-                CustomNavigationHeaderContainerView {
-                    root
-                }
-                .toolbar(.hidden, for: .navigationBar)
+
+
+    @ViewBuilder var returnView: some View {
+
+        NavigationStack {
+            CustomNavigationHeaderContainerView {
+                root
             }
-            .injectNavControllerToEnvironment()
-        )
+            .toolbar(.hidden, for: .navigationBar)
+        }
+        .injectNavControllerToEnvironment()
+
     }
 }
 
 extension NavigationStackProtocol where Data == NavigationPath {
-    @ViewBuilder var returnView: AnyView {
-        AnyView(
-            NavigationStack(path: pathBinding) {
-                CustomNavigationHeaderContainerView {
-                    root
-                }
-                .toolbar(.hidden, for: .navigationBar)
+    @ViewBuilder var returnView: some View {
+        NavigationStack(path: pathBinding) {
+            CustomNavigationHeaderContainerView {
+                root
             }
-            .injectNavControllerToEnvironment()
-        )
+            .toolbar(.hidden, for: .navigationBar)
+        }
+        .injectNavControllerToEnvironment()
+
     }
 }
 
 extension NavigationStackProtocol where Data: MutableCollection, Data: RandomAccessCollection, Data: RangeReplaceableCollection, Data.Element: Hashable {
-    @ViewBuilder var returnView: AnyView {
-        AnyView(
-            NavigationStack(path: pathBinding) {
-                CustomNavigationHeaderContainerView {
-                    root
-                }
-                .toolbar(.hidden, for: .navigationBar)
+    @ViewBuilder var returnView: some View {
+        NavigationStack(path: pathBinding) {
+            CustomNavigationHeaderContainerView {
+                root
             }
-            .injectNavControllerToEnvironment()
-        )
+            .toolbar(.hidden, for: .navigationBar)
+        }
+        .injectNavControllerToEnvironment()
     }
 }
 
@@ -226,7 +222,7 @@ extension NavigationStackProtocol where Data: MutableCollection, Data: RandomAcc
         }
     }
     struct ExampleView: View {
-        @State var path: NavigationPath = .init()
+        @State var path: [Int] = .init()
         var body: some View {
             NavigationStackPlus(path: $path) {
                 ZStack {
