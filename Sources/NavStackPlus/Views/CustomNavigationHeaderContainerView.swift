@@ -60,42 +60,42 @@ struct CustomNavigationHeaderContainerView<Content: View>: View {
     }
 }
 
-//#Preview {
-//    CustomNavigationHeaderContainerView {
-//        ZStack {
-//            Rectangle()
-//                .fill(.blue)
-//                .ignoresSafeArea()
-//            GeometryScrollView {
-//                VStack {
-//                    ForEach(1..<30) { _ in
-//                        RoundedRectangle(cornerRadius: 20)
-//                            .frame(height: 200)
-//                    }
-//                }
-//            }
-//        }
-//        .toolbarPlus {
-//            ToolbarItemPlus(placement: .leading) {
-//                Button("Profile",
-//                       systemImage: "person.circle.fill",
-//                       action: {}
-//                )
-//                    .font(.title)
-//            }
-//            ToolbarItemPlus(placement: .principal) {
-//                Text("Custom Nav Stack")
-//            }
-//            ToolbarItemPlus(placement: .trailing) {
-//                Button(
-//                    "More Options",
-//                    systemImage: "ellipsis.circle.fill",
-//                    action: {}
-//                )
-//                .foregroundStyle(.purple)
-//            }
-//        }
-//        .toolbarBackgroundPlus(maxOpacity: 0.5)
-//        .navigationBarScrollDisabledPlus(false)
-//    }
-//}
+#Preview {
+    CustomNavigationHeaderContainerView {
+        ZStack {
+            Rectangle()
+                .fill(.blue)
+                .ignoresSafeArea()
+            GeometryScrollView {
+                VStack {
+                    ForEach(1..<30) { _ in
+                        RoundedRectangle(cornerRadius: 20)
+                            .frame(height: 200)
+                    }
+                }
+            }
+        }
+        .toolbarPlus {
+            ToolbarItemPlus(placement: .leading) {
+                Button("Profile",
+                       systemImage: "person.circle.fill",
+                       action: {}
+                )
+                    .font(.title)
+            }
+            ToolbarItemPlus(placement: .principal) {
+                Text("Custom Nav Stack")
+            }
+            ToolbarItemPlus(placement: .trailing) {
+                Button(
+                    "More Options",
+                    systemImage: "ellipsis.circle.fill",
+                    action: {}
+                )
+                .foregroundStyle(.purple)
+            }
+        }
+        .toolbarBackgroundPlus(maxOpacity: 0.5)
+        .navigationBarScrollDisabledPlus(false)
+    }
+}

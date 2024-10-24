@@ -203,8 +203,6 @@ public struct NavigationLinkPlus<Label: View, Destination: View>: View {
                                         "Go To",
                                         value: number.formatted(.number))
                                 }
-
-
                             }
                             .padding(.horizontal)
                             .padding(.vertical, 8)
@@ -217,7 +215,6 @@ public struct NavigationLinkPlus<Label: View, Destination: View>: View {
                         TargetExampleView(number: $0)
                     }
                 }
-
                 .navigationTitle("Custom Nav Stack")
                 .toolbarPlus {
                     ToolbarItemPlus(placement: .leading) {
