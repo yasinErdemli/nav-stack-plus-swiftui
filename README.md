@@ -3,6 +3,10 @@ NavigationStackPlus
 
 NavigationStackPlus provides extended functionality for SwiftUI's native NavigationStack with additional customization options. This package introduces a suite of modifiers that enhance navigation, toolbar customization, and background manipulation, enabling more granular control over SwiftUI applications' navigation stacks.
 
+
+https://github.com/user-attachments/assets/04b85178-11bb-49bc-b627-0f22e464a041
+
+
 Features
 --------
 
