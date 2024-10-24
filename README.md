@@ -32,7 +32,8 @@ Features
 
 ## NOTE
 ---
-To be able to see the names of the previous navigation controllers, you need to use SwiftUI's dedicated `navigationTitle` modifier.
+1. To be able to see the names of the previous navigation controllers, you need to use SwiftUI's dedicated `navigationTitle` modifier.
+2. Since you can't use `body` of `View` protocol in extensions even with different `where` blocks, you need to call `createNavigation` modifier of the `NavigationStackPlus` right after the decleration. See below for example.
 
 Usage
 -----
@@ -54,6 +55,7 @@ NavigationStackPlus {
         ColorDetail(color: color)
     }
 }
+.createNavigation()
 ```
 
 ### 2\. Navigation Destination with a Boolean Binding
@@ -73,7 +75,7 @@ NavigationStackPlus {
         ColorDetail(color: favoriteColor)
     }
 }
-
+.createNavigation()
 ```
 ### 3\. Navigation Destination with a Bound Item
 
@@ -90,6 +92,7 @@ NavigationStackPlus {
         ColorDetail(color: color)
     }
 }
+.createNavigation()
 ```
 ### 4\. Customizing the Toolbar
 
@@ -112,6 +115,7 @@ NavigationStackPlus {
             }
         }
 }
+.createNavigation()
 ```
 
 ### 5\. Customizing the Toolbar Background

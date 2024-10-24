@@ -11,6 +11,12 @@ import SwiftUI
 /// A view that displays a root view and enables you to present additional
 /// views over the root view.
 ///
+/// Don't forget to call the `createNavigation` method at the end to
+/// call the stack as a view. This is needed because it is impossible to use
+/// view body in different extensions even with different requirements.
+/// This effectively uses a protocol to bypass it and you can get the needed
+/// view with the help of a function.
+///
 /// Use a navigation stack to present a stack of views over a root view.
 /// People can add views to the top of the stack by clicking or tapping a
 /// ``NavigationLinkPlus``, and remove views using built-in, platform-appropriate
@@ -36,6 +42,7 @@ import SwiftUI
 ///             ParkDetails(park: park)
 ///         }
 ///     }
+///     .createNavigation()
 ///
 /// In this example, the ``GeometryScrollView`` acts as the root view and is always
 /// present. Selecting a navigation link from the scroll view adds a `ParkDetails`
@@ -72,6 +79,7 @@ import SwiftUI
 ///             ParkDetails(park: park)
 ///         }
 ///     }
+///     .createNavigation()
 ///
 /// Like before, when someone taps or clicks the navigation link for a
 /// park, the stack displays the `ParkDetails` view using the associated park
@@ -107,6 +115,12 @@ where Root: View {
     @Binding public var path: Data
     public let root: Root
 
+
+    
+    /// This is needed because it is impossible to use
+    /// view body in different extensions even with different requirements.
+    /// This effectively uses a protocol to bypass it and you can get the needed
+    /// view with the help of a function.
     func createNavigation() -> some View {
         return returnView
     }
@@ -133,6 +147,10 @@ where
         self.root = root()
     }
 
+    /// This is needed because it is impossible to use
+    /// view body in different extensions even with different requirements.
+    /// This effectively uses a protocol to bypass it and you can get the needed
+    /// view with the help of a function.
     func createNavigation() -> some View {
         return returnView
     }
@@ -161,6 +179,11 @@ extension NavigationStackPlus where Data == NavigationPath {
         self._path = path
         self.root = root()
     }
+
+    /// This is needed because it is impossible to use
+    /// view body in different extensions even with different requirements.
+    /// This effectively uses a protocol to bypass it and you can get the needed
+    /// view with the help of a function.
     func createNavigation() -> some View {
         return returnView
     }
@@ -178,8 +201,8 @@ extension NavigationStackPlus where Data == NavigationPath {
                         .fill(.blue)
                         .ignoresSafeArea()
                     GeometryScrollView {
-                        VStack {
-                            ForEach(1..<11) { number in
+                        LazyVStack {
+                            ForEach(1..<55) { number in
                                 Button {
                                     path.append(number)
                                     print(path)
@@ -201,6 +224,7 @@ extension NavigationStackPlus where Data == NavigationPath {
                         TargetExampleView(number: item)
                     }
                 }
+                .navigationTitle("Cusom Nav Stack")
                 .toolbarPlus {
                     ToolbarItemPlus(placement: .leading) {
                         Button(
@@ -225,7 +249,7 @@ extension NavigationStackPlus where Data == NavigationPath {
                     Rectangle()
                         .fill(.ultraThickMaterial)
                 }
-                .navigationBarScrollDisabledPlus(true)
+                .navigationBarScrollDisabledPlus(false)
             }.createNavigation()
         }
     }

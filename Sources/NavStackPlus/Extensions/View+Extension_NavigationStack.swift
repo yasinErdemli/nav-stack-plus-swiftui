@@ -136,6 +136,7 @@ extension View {
     ///         .navigationDestinationPlus(item: $colorShown) { color in
     ///             ColorDetail(color: color)
     ///         }
+    ///         .createNavigation()
     ///     }
     ///
     /// When the person using the app taps on the Mint button, the mint color
