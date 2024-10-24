@@ -71,13 +71,14 @@ import SwiftUI
 /// inside a navigation stack to associate a view with a kind of data, and
 /// then present a value of that data type from a navigation link. The
 /// following example reimplements the previous example as a series of
-/// presentation links:
+/// presentation links, as you can see, you just use SwiftUI's default NavigationLink with
+/// value for this:
 ///
 ///     NavigationStackPlus {
 ///         GeometryScrollView {
-///             NavigationLinkPlus("Mint", value: Color.mint)
-///             NavigationLinkPlus("Pink", value: Color.pink)
-///             NavigationLinkPlus("Teal", value: Color.teal)
+///             NavigationLink("Mint", value: Color.mint)
+///             NavigationLink("Pink", value: Color.pink)
+///             NavigationLink("Teal", value: Color.teal)
 ///         }
 ///         .navigationDestinationPlus(for: Color.self) { color in
 ///             ColorDetail(color: color)
@@ -117,22 +118,20 @@ import SwiftUI
 ///     }
 ///
 public struct NavigationLinkPlus<Label: View, Destination: View>: View {
-    let destination: Destination?
-    let label: Label
-    let value: AnyHashable?
+    public let destination: Destination
+    public let label: Label
 
     /// Creates a navigation link that presents the destination view.
     /// - Parameters:
     ///   - destination: A view for the navigation link to present.
     ///   - label: A view builder to produce a label describing the `destination`
     ///    to present.
-    init(
+    public init(
         @ViewBuilder destination: () -> Destination,
         @ViewBuilder label: () -> Label
     ) {
         self.destination = destination()
         self.label = label()
-        self.value = nil
     }
 
     /// Creates a navigation link that presents the destination view.
@@ -146,221 +145,16 @@ public struct NavigationLinkPlus<Label: View, Destination: View>: View {
     ) {
         self.destination = destination
         self.label = label()
-        self.value = nil
     }
 
-    public var body: some View {
-        NavigationLink {
-            CustomNavigationHeaderContainerView {
-                destination
-            }
-            .toolbar(.hidden, for: .navigationBar)
-        } label: {
-            label
-        }
-    }
-}
-
-extension NavigationLinkPlus where Destination == Never {
-    /// Creates a navigation link that presents the view corresponding to a
-    /// value.
-    ///
-    /// When someone activates the navigation link that this initializer
-    /// creates, SwiftUI looks for a nearby
-    /// ``View/navigationDestinationPlus(for:destination:)`` view modifier
-    /// with a `data` input parameter that matches the type of this
-    /// initializer's `value` input, with one of the following outcomes:
-    ///
-    /// * If SwiftUI finds a matching modifier within the view hierarchy of an
-    ///   enclosing ``NavigationStackPlus``, it pushes the modifier's corresponding
-    ///   `destination` view onto the stack.
-    ///
-    /// If you want to be able to serialize a ``NavigationPath`` that includes
-    /// this link, use use a `value` that conforms to the
-    /// <doc://com.apple.documentation/documentation/Swift/Codable> protocol.
-    ///
-    /// - Parameters:
-    ///   - value: An optional value to present.
-    ///     When the user selects the link, SwiftUI stores a copy of the value.
-    ///     Pass a `nil` value to disable the link.
-    ///   - label: A label that describes the view that this link presents.
-    public init<P>(value: P?, @ViewBuilder label: () -> Label)
-    where P: Hashable {
-        self.value = value
-        self.label = label()
-        self.destination = nil
-    }
-
-    /// Creates a navigation link that presents the view corresponding to a
-    /// value.
-    ///
-    /// When someone activates the navigation link that this initializer
-    /// creates, SwiftUI looks for a nearby
-    /// ``View/navigationDestinationPlus(for:destination:)`` view modifier
-    /// with a `data` input parameter that matches the type of this
-    /// initializer's `value` input, with one of the following outcomes:
-    ///
-    /// * If SwiftUI finds a matching modifier within the view hierarchy of an
-    ///   enclosing ``NavigationStackPlus``, it pushes the modifier's corresponding
-    ///   `destination` view onto the stack.
-    ///
-    /// If you want to be able to serialize a ``NavigationPath`` that includes
-    /// this link, use use a `value` that conforms to the
-    /// <doc://com.apple.documentation/documentation/Swift/Codable> protocol.
-    ///
-    /// - Parameters:
-    ///   - titleKey: A localized string that describes the view that this link
-    ///     presents.
-    ///   - value: An optional value to present.
-    ///     When the user selects the link, SwiftUI stores a copy of the value.
-    ///     Pass a `nil` value to disable the link.
-    public init<P>(_ titleKey: LocalizedStringKey, value: P?)
-    where Label == Text, P: Hashable {
-        self.label = .init(titleKey)
-        self.value = value
-        self.destination = nil
-    }
-
-    /// Creates a navigation link that presents the view corresponding to a
-    /// value.
-    ///
-    /// When someone activates the navigation link that this initializer
-    /// creates, SwiftUI looks for a nearby
-    /// ``View/navigationDestinationPlus(for:destination:)`` view modifier
-    /// with a `data` input parameter that matches the type of this
-    /// initializer's `value` input, with one of the following outcomes:
-    ///
-    /// * If SwiftUI finds a matching modifier within the view hierarchy of an
-    ///   enclosing ``NavigationStackPlus``, it pushes the modifier's corresponding
-    ///   `destination` view onto the stack.
-    ///
-    /// If you want to be able to serialize a ``NavigationPath`` that includes
-    /// this link, use use a `value` that conforms to the
-    /// <doc://com.apple.documentation/documentation/Swift/Codable> protocol.
-    ///
-    /// - Parameters:
-    ///   - title: A string that describes the view that this link presents.
-    ///   - value: An optional value to present.
-    ///     When the user selects the link, SwiftUI stores a copy of the value.
-    ///     Pass a `nil` value to disable the link.
-    public init<S, P>(_ title: S, value: P?)
-    where Label == Text, S: StringProtocol, P: Hashable {
-        self.label = .init(title)
-        self.value = value
-        self.destination = nil
-    }
-
-    /// Creates a navigation link that presents the view corresponding to a
-    /// value.
-    ///
-    /// When someone activates the navigation link that this initializer
-    /// creates, SwiftUI looks for a nearby
-    /// ``View/navigationDestinationPlus(for:destination:)`` view modifier
-    /// with a `data` input parameter that matches the type of this
-    /// initializer's `value` input, with one of the following outcomes:
-    ///
-    /// * If SwiftUI finds a matching modifier within the view hierarchy of an
-    ///   enclosing ``NavigationStackPlus``, it pushes the modifier's corresponding
-    ///   `destination` view onto the stack.
-    ///
-    /// If you want to be able to serialize a ``NavigationPath`` that includes
-    /// this link, use use a `value` that conforms to the
-    /// <doc://com.apple.documentation/documentation/Swift/Codable> protocol.
-    ///
-    /// - Parameters:
-    ///   - value: An optional value to present.
-    ///     When the user selects the link, SwiftUI stores a copy of the value.
-    ///     Pass a `nil` value to disable the link.
-    ///   - label: A label that describes the view that this link presents.
-    public init<P>(value: P?, @ViewBuilder label: () -> Label)
-    where P: Decodable, P: Encodable, P: Hashable {
-        self.value = value
-        self.label = label()
-        self.destination = nil
-    }
-
-    /// Creates a navigation link that presents the view corresponding to a
-    /// value.
-    ///
-    /// When someone activates the navigation link that this initializer
-    /// creates, SwiftUI looks for a nearby
-    /// ``View/navigationDestinationPlus(for:destination:)`` view modifier
-    /// with a `data` input parameter that matches the type of this
-    /// initializer's `value` input, with one of the following outcomes:
-    ///
-    /// * If SwiftUI finds a matching modifier within the view hierarchy of an
-    ///   enclosing ``NavigationStackPlus``, it pushes the modifier's corresponding
-    ///   `destination` view onto the stack.
-    ///
-    /// If you want to be able to serialize a ``NavigationPath`` that includes
-    /// this link, use use a `value` that conforms to the
-    /// <doc://com.apple.documentation/documentation/Swift/Codable> protocol.
-    ///
-    /// - Parameters:
-    ///   - titleKey: A localized string that describes the view that this link
-    ///     presents.
-    ///   - value: An optional value to present. When someone
-    ///     taps or clicks the link, SwiftUI stores a copy of the value.
-    ///     Pass a `nil` value to disable the link.
-    public init<P>(_ titleKey: LocalizedStringKey, value: P?)
-    where Label == Text, P: Decodable, P: Encodable, P: Hashable {
-        self.label = .init(titleKey)
-        self.value = value
-        self.destination = nil
-    }
-
-    /// Creates a navigation link that presents the view corresponding to a
-    /// value.
-    ///
-    /// When someone activates the navigation link that this initializer
-    /// creates, SwiftUI looks for a nearby
-    /// ``View/navigationDestinationPlus(for:destination:)`` view modifier
-    /// with a `data` input parameter that matches the type of this
-    /// initializer's `value` input, with one of the following outcomes:
-    ///
-    /// * If SwiftUI finds a matching modifier within the view hierarchy of an
-    ///   enclosing ``NavigationStackPlus``, it pushes the modifier's corresponding
-    ///   `destination` view onto the stack.
-    ///
-    /// If you want to be able to serialize a ``NavigationPath`` that includes
-    /// this link, use use a `value` that conforms to the
-    /// <doc://com.apple.documentation/documentation/Swift/Codable> protocol.
-    ///
-    /// - Parameters:
-    ///   - title: A string that describes the view that this link presents.
-    ///   - value: An optional value to present.
-    ///     When the user selects the link, SwiftUI stores a copy of the value.
-    ///     Pass a `nil` value to disable the link.
-    public init<S, P>(_ title: S, value: P?)
-    where
-        Label == Text, S: StringProtocol, P: Decodable, P: Encodable,
-        P: Hashable
-    {
-        self.label = .init(title)
-        self.value = value
-        self.destination = nil
-    }
-
-    public var body: some View {
-        NavigationLink(value: value) {
-            label
-        }
-    }
-}
-
-extension NavigationLinkPlus where Label == Text {
     /// Creates a navigation link that presents a destination view, with a text label
     /// that the link generates from a localized string key.
     /// - Parameters:
     ///   - titleKey: A localized string key for creating a text label.
     ///   - destination: A view for the navigation link to present.
-    public init(
-        _ titleKey: LocalizedStringKey,
-        @ViewBuilder destination: () -> Destination
-    ) {
-        self.label = .init(titleKey)
+    public init(_ titleKey: LocalizedStringKey, @ViewBuilder destination: () -> Destination) where Label == Text {
         self.destination = destination()
-        self.value = nil
+        self.label = Text(titleKey)
     }
 
     /// Creates a navigation link that presents a destination view, with a text label
@@ -368,14 +162,11 @@ extension NavigationLinkPlus where Label == Text {
     /// - Parameters:
     ///   - title: A string for creating a text label.
     ///   - destination: A view for the navigation link to present.
-    public init<S>(
-        _ title: S,
-        @ViewBuilder destination: () -> Destination
-    ) where S: StringProtocol {
-        self.label = .init(title)
+    public init<S>(_ title: S, @ViewBuilder destination: () -> Destination) where S : StringProtocol, Label == Text {
         self.destination = destination()
-        self.value = nil
+        self.label = Text(title)
     }
+
     public var body: some View {
         NavigationLink {
             CustomNavigationHeaderContainerView {
@@ -387,6 +178,7 @@ extension NavigationLinkPlus where Label == Text {
         }
     }
 }
+
 
 #Preview {
     return ExampleView()
@@ -397,12 +189,22 @@ extension NavigationLinkPlus where Label == Text {
                     GeometryScrollView {
                         VStack {
                             ForEach(1..<11) { number in
-                                NavigationLinkPlus(value: number) {
+                                NavigationLink(value: number) {
                                     LabeledContent(
                                         "Go To",
                                         value: number.formatted(.number))
                                 }
                                 .foregroundStyle(.white)
+
+                                NavigationLinkPlus {
+                                    TargetExampleView(number: number)
+                                } label: {
+                                    LabeledContent(
+                                        "Go To",
+                                        value: number.formatted(.number))
+                                }
+
+
                             }
                             .padding(.horizontal)
                             .padding(.vertical, 8)
@@ -415,6 +217,7 @@ extension NavigationLinkPlus where Label == Text {
                         TargetExampleView(number: $0)
                     }
                 }
+
                 .navigationTitle("Custom Nav Stack")
                 .toolbarPlus {
                     ToolbarItemPlus(placement: .leading) {
