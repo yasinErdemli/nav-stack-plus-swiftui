@@ -18,7 +18,11 @@ struct InjectNavgigationController: ViewModifier {
         content
             .environment(\.navigationController, navigationController)
             .introspect(.navigationStack, on: .iOS(.v17...)) { controller in
-                self.navigationController = controller
+                if self.navigationController == nil || navigationController != controller {
+                    DispatchQueue.main.async {
+                        self.navigationController = controller
+                    }
+                }
             }
     }
 }
