@@ -121,7 +121,7 @@ where Root: View {
     /// view body in different extensions even with different requirements.
     /// This effectively uses a protocol to bypass it and you can get the needed
     /// view with the help of a function.
-    func createNavigation() -> some View {
+    public func createNavigation() -> some View {
         return returnView
     }
 }
@@ -151,7 +151,7 @@ where
     /// view body in different extensions even with different requirements.
     /// This effectively uses a protocol to bypass it and you can get the needed
     /// view with the help of a function.
-    func createNavigation() -> some View {
+    public func createNavigation() -> some View {
         return returnView
     }
 }
@@ -184,7 +184,7 @@ extension NavigationStackPlus where Data == NavigationPath {
     /// view body in different extensions even with different requirements.
     /// This effectively uses a protocol to bypass it and you can get the needed
     /// view with the help of a function.
-    func createNavigation() -> some View {
+    public func createNavigation() -> some View {
         return returnView
     }
 }
